@@ -197,18 +197,24 @@ def getText(input_string):
     )
     parser.add_argument(
         "--host",
-        default=None,
+        default="0.0.0.0",
         type=str,
-        required=True,
+        required=False,
         help="just for startup",
     )
     parser.add_argument(
         "--port",
-        default=None,
+        default="8502",
         type=str,
-        required=True,
+        required=False,
         help="just for startup",
     )
+    parser.add_argument(
+        "runserver",
+        type=str,
+        help="just for startup",
+    )
+
     parser.add_argument(
         "--model_type",
         default=MODEL_TYPE,
@@ -244,7 +250,7 @@ def getText(input_string):
     parser.add_argument("--xlm_language", type=str, default="", help="Optional language when used with the XLM model.")
 
     parser.add_argument("--seed", type=int, default=42, help="random seed for initialization")
-    parser.add_argument("--no_cuda", action="store_true", help="Avoid using CUDA when available")
+    parser.add_argument("--no_cuda", default=False, action="store_true", help="Avoid using CUDA when available")
     parser.add_argument("--num_return_sequences", type=int, default=1, help="The number of samples to generate.")
     parser.add_argument(
         "--fp16",

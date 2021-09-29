@@ -1,0 +1,78 @@
+#among other things:
+https://pacroy.medium.com/single-node-kubernetes-on-home-lab-using-microk8s-metallb-and-traefik-7bb1ea38fcc2
+sudo snap install microk8s --classic --channel=latest/edge
+microk8s enable dns
+microk8s enable gpu
+microk8s enable registry
+microk8s enable metallb
+sudo apt-get install iptables-persistent
+sudo iptables -P FORWARD ACCEPT
+sudo nano /etc/docker/daemon.json
+{
+    "insecure-registries" : ["localhost:32000"] 
+}
+sudo systemctl restart docker
+#test http://localhost:32000/v2/generate
+microk8s inspect
+microk8s add-node
+
+https://discuss.kubernetes.io/t/my-adventures-with-microk8s-to-enable-gpu-and-use-mig-on-a-dgx-a100/15366
+microk8s enable gpu ^
+    to test: lsmod | grep -i -e cuda -e nvidia -e nouveau
+    shoud return nothing ^
+    update to latest:
+    sudo snap refresh microk8s --channel=latest/edge
+    then run: microk8s enable gpu
+Troubleshooting:
+    microk8s inspect
+    microk8s status
+    sudo journalctl -u snap.microk8s.daemon-containerd -n 1000 --no-pager
+    microk8s kubectl logs gpu-operator-node-feature-discovery-worker-hbkfg
+    microk8s kubectl logs pod/generate-5df6949b64-9rxvx
+
+docker push localhost:32000/generate
+# test http://127.0.0.1:32000/v2/_catalog
+
+# already done
+    kompose --volumes hostPath convert
+    kompose --file docker-compose.yml --volumes hostPath convert
+
+microk8s.kubectl apply -f generate-deployment.yaml
+microk8s.kubectl apply -f generate-service.yaml
+microk8s.kubectl apply -f metalLB-config.yaml
+
+microk8s kubectl get all --all-namespaces
+microk8s kubectl rollout restart deployment generate
+microk8s kubectl rollout restart deployment
+microk8s kubectl logs pod/generate-b7f5698fb-89pvc
+microk8s kubectl expose deployment generate --type=NodePort --port=8501 --name=generate-service
+
+microk8s kubectl port-forward service/generate 8501:8501 -n default
+
+microk8s.kubectl describe pod
+microk8s inspect
+
+microk8s start
+microk8s ctr images ls
+microk8s kubectl exec -it generate-7c95bc4459-tzlbm -- /bin/bash
+microk8s stop
+
+# to remove all images:
+# get all images that start with localhost:32000, output the results into image_ls file
+sudo microk8s ctr images ls name~='localhost:32000' | awk {'print $1'} > image_ls 
+# loop over file, remove each image
+cat image_ls | while read line || [[ -n $line ]];
+do
+    microk8s ctr images rm $line
+done;
+
+microk8s kubectl delete --all pods --namespace=default
+#microk8s kubectl delete --all deployments --namespace=default
+ ^ this will delete a service from microk8s enable gpu
+#microk8s kubectl delete --all service --namespace=default
+ ^ this will delete a service from microk8s enable gpu
+microk8s kubectl delete pod/gpu-operator-node-feature-discovery-worker-rxffh
+microk8s kubectl delete pod/generate-6596bc774f-zzdzd
+
+microk8s kubectl get netpol -n default
+microk8s kubectl delete netpol fscrawler-net -n default

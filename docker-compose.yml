@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+
+#    oneshotqna:
+#       image: dockerusername/host
+#        build:
+#            context: ./src
+#            dockerfile: ./Dockerfile
+#        ports:
+#            - "9901:5000"
+    generate:
+        image: localhost:32000/generate
+        build:
+            context: ./src
+            dockerfile: ./Dockerfile
+        restart: unless-stopped
+        ports:
+            - "8502:8502"

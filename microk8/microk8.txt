@@ -44,10 +44,10 @@ microk8s.kubectl apply -f metalLB-config.yaml
 microk8s kubectl get all --all-namespaces
 microk8s kubectl rollout restart deployment generate
 microk8s kubectl rollout restart deployment
-microk8s kubectl logs pod/generate-b7f5698fb-89pvc
-microk8s kubectl expose deployment generate --type=NodePort --port=8501 --name=generate-service
+microk8s kubectl logs pod/generate-f75bcc9f-clzr7
+microk8s kubectl expose deployment generate --type=NodePort --port=8502 --name=generate-service
 
-microk8s kubectl port-forward service/generate 8501:8501 -n default
+# microk8s kubectl port-forward service/generate 8502:8502 -n default
 
 microk8s.kubectl describe pod
 microk8s inspect
@@ -76,3 +76,5 @@ microk8s kubectl delete pod/generate-6596bc774f-zzdzd
 
 microk8s kubectl get netpol -n default
 microk8s kubectl delete netpol fscrawler-net -n default
+
+microk8s kubectl delete service/generate

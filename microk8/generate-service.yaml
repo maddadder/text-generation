@@ -9,13 +9,13 @@ metadata:
     io.kompose.service: generate
   name: generate
 spec:
-  type: LoadBalancer
-#  type: NodePort
+#  type: LoadBalancer
+  type: NodePort
   ports:
     - name: "8502"
       port: 8502
-      targetPort: 8502
-#      nodePort: 31793
+#      targetPort: 8502
+      nodePort: 31798
   selector:
     io.kompose.service: generate
 status:

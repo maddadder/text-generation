@@ -22,3 +22,9 @@ docker system prune --all
 # microk8s
 docker-compose build
 then see microk8/microk8.txt
+To redeploy:
+cd ~/git3/text-generation
+docker-compose build
+docker push localhost:32000/generate
+microk8s kubectl rollout restart deployment generate
+microk8s kubectl get all --all-namespaces

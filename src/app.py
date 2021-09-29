@@ -230,7 +230,7 @@ def getText(input_string):
         help="Path to pre-trained model or shortcut name selected in the list: " + ", ".join(MODEL_CLASSES.keys()),
     )
     parser.add_argument("--prompt", type=str, default=input_string)
-    parser.add_argument("--length", type=int, default=20)
+    parser.add_argument("--length", type=int, default=200)
     parser.add_argument("--stop_token", type=str, default=None, help="Token at which text generation is stopped")
 
     parser.add_argument(

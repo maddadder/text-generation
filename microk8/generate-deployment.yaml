@@ -32,7 +32,7 @@ spec:
         imagePullPolicy: ""
         name: generate
         ports:
-        - containerPort: 8501
+        - containerPort: 8502
         resources: {}
       restartPolicy: Always
       serviceAccountName: ""

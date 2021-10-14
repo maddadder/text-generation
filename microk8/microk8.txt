@@ -78,3 +78,14 @@ microk8s kubectl get netpol -n default
 microk8s kubectl delete netpol fscrawler-net -n default
 
 microk8s kubectl delete service/generate
+
+
+microk8s kubectl label service/generate release-version=1.0
+microk8s kubectl label deployment/generate release-version=1.0
+microk8s kubectl label pods/generate-5ccc966cc7-rhfv4 release-version=1.0
+
+microk8s kubectl get all --selector release-version=1.0
+microk8s kubectl get all -l 'release-version in (1.0)' --show-labels
+
+microk8s kubectl get pods --selector release-version=1.0
+microk8s kubectl get pods -l 'release-version in (1.0)' --show-labels

@@ -7,6 +7,7 @@ metadata:
   creationTimestamp: null
   labels:
     io.kompose.service: generate
+    release-version: 1.0
   name: generate
 spec:
   replicas: 1

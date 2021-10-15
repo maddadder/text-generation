@@ -9,6 +9,13 @@ cd src
 python app.py runserver 0.0.0.0:8502
 
 # to run in docker
+#  Install docker
+#   To configure after 1st install
+    sudo groupadd docker
+    sudo usermod -aG docker $USER
+    newgrp docker
+    docker run hello-world
+sudo apt install docker-compose
 cd ~/git3/text-generation
 docker-compose build
 docker-compose up
@@ -22,7 +29,8 @@ docker system prune --all
 # microk8s
 docker-compose build
 then see microk8/microk8.txt
-To redeploy:
+
+#To redeploy:
 cd ~/git3/text-generation
 docker-compose build
 docker push localhost:32000/generate

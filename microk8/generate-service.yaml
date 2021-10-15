@@ -7,15 +7,13 @@ metadata:
   creationTimestamp: null
   labels:
     io.kompose.service: generate
-    release-version: 1.0
+    release-version: "1.0"
   name: generate
 spec:
-#  type: LoadBalancer
   type: NodePort
   ports:
     - name: "8502"
       port: 8502
-#      targetPort: 8502
       nodePort: 31798
   selector:
     io.kompose.service: generate

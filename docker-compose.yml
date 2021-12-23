@@ -10,7 +10,7 @@ services:
 #        ports:
 #            - "9901:5000"
     generate:
-        image: localhost:32000/generate
+        image: localhost:32000/generate:1.0
         build:
             context: ./src
             dockerfile: ./Dockerfile

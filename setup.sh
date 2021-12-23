@@ -27,12 +27,14 @@ docker rmi -f $(docker images -a -q)
 docker system prune --all
 
 # microk8s
-docker-compose build
-then see microk8/microk8.txt
+#docker-compose build
+#then see microk8/microk8.txt
 
-#To redeploy:
+### To deploy:
 cd ~/git3/text-generation
 docker-compose build
-docker push localhost:32000/generate
-microk8s kubectl rollout restart deployment generate
-microk8s kubectl get all --all-namespaces
+docker push localhost:32000/generate:1.0
+microk8s helm3 install generate ./generate
+
+#microk8s kubectl rollout restart deployment generate
+#microk8s kubectl get all --all-namespaces
